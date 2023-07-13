@@ -50,3 +50,32 @@ environment set up -- one that works across many projects -- should be
 able to clone the repository and do a build simply by running the
 build program with no special arguments. There should be no need to
 edit or install anything into the project space for the initial build.
+
+def replace_lines(file_path, search_file, new_lines_file):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    with open(search_file, 'r') as search_file:
+        search_words = search_file.read().splitlines()
+
+    with open(new_lines_file, 'r') as new_lines_file:
+        new_lines = new_lines_file.read().splitlines()
+
+    with open(file_path, 'w') as file:
+        for line in lines:
+            updated = False
+            for word, new_line in zip(search_words, new_lines):
+                if word in line:
+                    file.write(new_line + '\n')
+                    updated = True
+                    break
+            if not updated:
+                file.write(line)
+
+# Usage example
+file_path = 'path/to/your/file.txt'
+search_file = 'path/to/search/words.txt'
+new_lines_file = 'path/to/new/lines.txt'
+
+replace_lines(file_path, search_file, new_lines_file)
+
